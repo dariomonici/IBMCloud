@@ -7,7 +7,7 @@ st.set_page_config(page_title="IBM API GUI", page_icon="⚡", layout="wide")
 
 st.title("IBM API Configuration [🔗](https://cloud.ibm.com/apidocs)")
 
-k.api_key = st.text_input("API Key", k.api_key)
+k.api_key = st.text_input("API Key", "")
 disable_button = (k.api_key == "")
 
 #if st.button("GET IAM TOKEN", disabled=disable_button):
