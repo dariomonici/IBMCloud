@@ -4,10 +4,8 @@ import json
 
 class IBM_Cloud:
     def __init__(self):
-        f = open('secrets.json', "r")
-        secrets = json.loads(f.read())
         self.name = "IBM Cloud"
-        self.api_key = secrets[self.name]['api_key']
+        self.api_key = ""
 
     def update_values(self, api_key):
         self.api_key = api_key
