@@ -8,9 +8,11 @@ st.set_page_config(page_title="Language Translator", page_icon="", layout="wide"
 
 st.title("Language Translator [🔗](https://cloud.ibm.com/apidocs/language-translator)")
 
+# if no api_key is shown
 if k.api_key == "":
     st.markdown(f'<p style="color:#ff0000;">️⚠️  No API Key. Insert one in the Main page️ ⚠️</p>', unsafe_allow_html=True)
 else:
+    # if api_key is inserted find all instances from ibm cloud
     wlt_instances = f.get_resource_instances_by_type("language-translator")
 
 #cols = ['name', 'guid', 'region_id']
