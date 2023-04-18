@@ -8,7 +8,9 @@ st.set_page_config(page_title="Language Translator", page_icon="", layout="wide"
 
 st.title("Language Translator [🔗](https://cloud.ibm.com/apidocs/language-translator)")
 
-if k.api_key != "":
+if k.api_key == "":
+    st.markdown(f'<p style="color:#ff0000;">️⚠️  No API Key. Insert one in the Main page️ ⚠️</p>', unsafe_allow_html=True)
+else:
     wlt_instances = f.get_resource_instances_by_type("language-translator")
 
 #cols = ['name', 'guid', 'region_id']
@@ -26,7 +28,7 @@ if k.api_key != "":
 #st.dataframe(df, use_container_width=True)
 
     if len(wlt_instances) == 0:
-        st.text_input("No instances of 'Language Translator'. Create one at [🔗](https://cloud.ibm.com/catalog/services/language-translator)")
+        st.write("No instances of 'Language Translator'. Create one at [🔗](https://cloud.ibm.com/catalog/services/language-translator)")
     else:
         current_instance = st.selectbox('Select Instance:', tuple(wlt_instances.keys()))
 
