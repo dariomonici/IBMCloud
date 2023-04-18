@@ -2,7 +2,6 @@ from functions import api_functions as f
 from requests.auth import HTTPBasicAuth
 import json
 
-
 class WLT:
     def __init__(self, name, guid, region_id):
         self.name = name
