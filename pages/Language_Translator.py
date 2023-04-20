@@ -15,20 +15,6 @@ else:
     # if api_key is inserted find all instances from ibm cloud
     wlt_instances = f.get_resource_instances_by_type("language-translator")
 
-#cols = ['name', 'guid', 'region_id']
-#df = pd.DataFrame(columns=cols, index=range(len(wlt_instances)))
-
-#for wlt_i in wlt_instances.keys():
-    #i = 0
-    #d = {'name': wlt_instances[wlt_i]['name'],
-        #'guid': wlt_instances[wlt_i]['guid'],
-        #'region_id': wlt_instances[wlt_i]['region_id']}
-
-    #df.loc[i] = pd.Series(d)
-    #i += 1
-
-#st.dataframe(df, use_container_width=True)
-
     if len(wlt_instances) == 0:
         st.write("No instances of 'Language Translator'. Create one at [🔗](https://cloud.ibm.com/catalog/services/language-translator)")
     else:
@@ -38,8 +24,6 @@ else:
         WLT_Instance = WLT.WLT(wlt_instances[current_instance]['name'],
                        wlt_instances[current_instance]['guid'],
                        wlt_instances[current_instance]['region_id'])
-#api_key = st.text_input("API Key", WLT_Instance.api_key)
-#url = st.text_input("URL", WLT_Instance.url)
 
         tab1, tab2, tab3 = st.tabs(["Translate", "List Supported Languages", "List Models"])
 
