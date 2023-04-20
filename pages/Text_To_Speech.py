@@ -1,3 +1,5 @@
+import os
+
 import streamlit as st
 from functions import api_functions as f
 from classes import TTS
@@ -28,15 +30,25 @@ else:
         tab1, tab2 = st.tabs(["Synthesize", "List Voices"])
 
         with tab1:
-            print("aaa")
+            text_to_synthesize = st.text_input("Text to Synthesize:", "")
+
+            disable_button = (text_to_synthesize == "")
+            if st.button("SYNTHESIZE", disabled=disable_button):
+                TTS_Instance.synthesize(text_to_synthesize)
+
+                audio_file = open('tts_audio.wav', 'rb')
+                audio_bytes = audio_file.read()
+
+                audio_output = st.audio(audio_bytes, format='audio/wav')
+
 
         with tab2:
-            VOICES = TTS_Instance.get_voices()
+            list_voices = TTS_Instance.get_voices()
 
-            ret_fields = st.multiselect('Returned Fields:', ["gender","custom_pronunciation","voice_transformation","name","customizable","description","language","url"],["gender","name","language"])
-            df = pd.DataFrame(columns=ret_fields, index=range(len(VOICES['voices'])))
+            ret_fields = st.multiselect('Returned Fields:', ["gender", "custom_pronunciation","voice_transformation","name","customizable","description","language","url"],["gender","name","language"])
+            df = pd.DataFrame(columns=ret_fields, index=range(len(list_voices['voices'])))
             i = 0
-            for lt in VOICES['voices']:
+            for lt in list_voices['voices']:
                 d = {}
                 if 'gender' in ret_fields: d['gender'] = lt['gender']
                 if 'custom_pronunciation' in ret_fields: d['custom_pronunciation'] = lt['supported_features']['custom_pronunciation']
