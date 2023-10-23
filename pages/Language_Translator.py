@@ -4,9 +4,12 @@ import constants as k
 from classes import WLT
 import pandas as pd
 
-st.set_page_config(page_title="Language Translator", page_icon="", layout="wide")
+service_name = "Language Translator"
+service_webpage = "https://cloud.ibm.com/apidocs/language-translator"
 
-st.title("Language Translator [🔗](https://cloud.ibm.com/apidocs/language-translator)")
+st.set_page_config(page_title=service_name, page_icon="", layout="wide")
+
+st.title(service_name + " [🔗](" + service_webpage + ")")
 
 # if no api_key is shown
 if k.api_key == "":
@@ -16,10 +19,14 @@ else:
     wlt_instances = f.get_resource_instances_by_type("language-translator")
 
     if len(wlt_instances) == 0:
-        st.write("No instances of 'Language Translator'. Create one at [🔗](https://cloud.ibm.com/catalog/services/language-translator)")
+        st.write("No instances of '" + service_name + "'. Create one at [🔗](" + service_webpage + ")")
     else:
-        current_instance = st.selectbox('Select Instance:', tuple(wlt_instances.keys()))
-
+        col_text, col_instance = st.columns(2)
+        with col_text:
+            st.subheader('Select Instance:')
+        with col_instance:
+            current_instance = st.selectbox('', tuple(wlt_instances.keys()), label_visibility='collapsed')
+        
         # create instance of class WLT
         WLT_Instance = WLT.WLT(wlt_instances[current_instance]['name'],
                        wlt_instances[current_instance]['guid'],
@@ -28,19 +35,40 @@ else:
         tab1, tab2, tab3 = st.tabs(["Translate", "List Supported Languages", "List Models"])
 
         with tab1:
-            col_input, col_output = st.columns(2)
+            col_input, col_params = st.columns(2)
 
+            # INPUT
             with col_input:
-                input_translation = st.text_area("", "What's your name?")
+                st.subheader('Input:')
+                input_translation = st.text_area("", "What's your name?", label_visibility='collapsed')
 
-            with col_output:
-                output_translation = st.empty()
-                output_translation.text_area("", "")
+            # PARAMS
+            with col_params:
+                st.subheader('Parameters:')
+                lang_model = st.selectbox('', ("en-it", "it-en", "en-es"), label_visibility='collapsed')
 
-            lang_model = st.selectbox('', ("en-it", "it-en", "en-es"))
-
+            # BUTTON
             disable_button = (WLT_Instance.api_key == "") | (WLT_Instance.url == "")
-            if st.button("translate", disabled=disable_button):
+            col1, col2, col3 , col4, col5 = st.columns(5)
+
+            with col1:
+                pass
+            with col2:
+                pass
+            with col4:
+                pass
+            with col5:
+                pass
+            with col3 :
+                translate_button = st.empty
+                translate_button = st.button(":blue[Translate]", disabled=disable_button)
+
+            # OUTPUT
+            st.subheader('Output:')
+            output_translation = st.empty()
+            output_translation.text_area("", "", label_visibility='collapsed')
+            
+            if translate_button:
                 output_translation.text_area("", WLT_Instance.translate(input_translation, lang_model))
 
         with tab2:

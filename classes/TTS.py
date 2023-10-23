@@ -12,7 +12,7 @@ class TTS:
 
     def synthesize(self, text_to_synthesize):
         if os.path.exists(os.getcwd() + 'tts_audio.wav'):
-            os.remove('tts_audio.wav')
+            os.remove('data/tts/tts_audio.wav')
 
         r_synthesize, sc = f.API_CALL(
             method="POST",
@@ -24,7 +24,7 @@ class TTS:
             json=False
         )
 
-        with open('tts_audio.wav', 'wb') as audio_file:
+        with open('data/tts/tts_audio.wav', 'wb') as audio_file:
             audio_file.write(r_synthesize.content)
 
     def get_voices(self):
